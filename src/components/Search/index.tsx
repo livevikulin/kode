@@ -1,7 +1,12 @@
 import React from 'react'
-import { Wrapper, Input, SortButton } from './styles'
+import { Wrapper, SortButton } from './styles'
 
-const Search = () => {
+interface ISearch {
+    value: string
+    handleChange: any
+}
+
+const Search = ({ value, handleChange }: ISearch) => {
     return (
         <Wrapper>
             <svg
@@ -16,7 +21,12 @@ const Search = () => {
                     fill="#C3C3C6"
                 />
             </svg>
-            <Input placeholder="Введи имя, тег, почту..." />
+            <input
+                type="text"
+                value={value}
+                onChange={(e) => handleChange(e.target.value)}
+                placeholder="Введи имя, тег, почту..."
+            />
             <SortButton>
                 <svg
                     width="24"

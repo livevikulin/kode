@@ -10,21 +10,20 @@ export const Wrapper = styled.div`
         left: 12px;
         transform: translateY(-50%);
     }
-`
-
-export const Input = styled.input`
-    width: 100%;
-    font-size: 15px;
-    line-height: 20px;
-    color: #050510;
-    background: #f7f7f8;
-    border-radius: 16px;
-    padding: 8px 44px;
-    outline: none;
-    border: none;
-    caret-color: #6534ff;
-    &::placeholder {
-        color: #c3c3c6;
+    & input {
+        width: 100%;
+        font-size: 15px;
+        line-height: 20px;
+        color: #050510;
+        background: #f7f7f8;
+        border-radius: 16px;
+        padding: 8px 44px;
+        outline: none;
+        border: none;
+        caret-color: #6534ff;
+        &::placeholder {
+            color: #c3c3c6;
+        }
     }
 `
 

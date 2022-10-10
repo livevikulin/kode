@@ -1,24 +1,20 @@
 import React from 'react'
 import { Card, Image, CardInfo } from './styles'
 
-interface UsersTypes {
+interface IUserType {
     avatarUrl: string
-    birthday: string
-    department: string
     firstName: string
-    id: string
     lastName: string
-    phone: string
-    position: string
     userTag: string
+    position: string
 }
 
-interface User {
-    items: UsersTypes
+interface IUser {
+    item: IUserType
 }
 
-const User = ({ items }: User): JSX.Element => {
-    const { avatarUrl, firstName, lastName, userTag, position } = items
+const User = ({ item }: IUser) => {
+    const { avatarUrl, firstName, lastName, userTag, position } = item
     return (
         <Card>
             <Image>

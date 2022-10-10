@@ -39,6 +39,8 @@
         "@typescript-eslint/prefer-ts-expect-error": "off",
         "@typescript-eslint/no-redeclare": "off",
         "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/require-array-sort-compare": "off",
         "no-redeclare": "off",
         "import/no-unresolved": [
             2,
