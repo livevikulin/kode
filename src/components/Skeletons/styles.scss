@@ -1,0 +1,29 @@
+.skeleton {
+	background: linear-gradient(90deg, #F3F3F6 0%, #FAFAFA 100%)
+}
+
+.skeleton.avatar {
+	width: 72px;
+	height: 72px;
+	border-radius: 50%;
+	margin-right: 16px;
+}
+
+.skeleton.name {
+	width: 144px;
+	height: 16px;
+	border-radius: 50px;
+	margin-bottom: 6px;
+}
+
+.skeleton.subtitle {
+	width: 80px;
+	height: 12px;
+	border-radius: 50px;
+}
+
+.skeleton-user {
+	display: flex;
+	align-items: center;
+	margin-bottom: 24px;
+}

@@ -1,53 +1,28 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { IUser } from '../../types'
 import { TabsContainer } from './styles'
-import { Departments } from '../../variables'
-import _ from 'lodash'
+import { getCategoryName } from '../../variables'
+import uniq from 'lodash/uniq'
 
 interface ITabs {
-    items: string[]
+    items: any
     onSelectedTab: (param: string) => void
     selectedDepartment: string
 }
 
 const Tabs = ({ items, onSelectedTab, selectedDepartment }: ITabs) => {
-    const departments = ['all', ...items.map((item: any) => item.department)]
-    const uniqDepartments = _.uniq(departments).sort()
-    const switchDepartment = (item: string) => {
-        switch (item) {
-            case Departments.ALL:
-                return 'Все'
-            case Departments.ANDROID:
-                return 'Android'
-            case Departments.IOS:
-                return 'iOS'
-            case Departments.DESIGN:
-                return 'Дизайн'
-            case Departments.MANAGEMENT:
-                return 'Менеджмент'
-            case Departments.QA:
-                return 'QA'
-            case Departments.BACK_OFFICE:
-                return 'Бэк-Офис'
-            case Departments.FRONTEND:
-                return 'Frontend'
-            case Departments.HR:
-                return 'HR'
-            case Departments.PR:
-                return 'PR'
-            case Departments.BACKEND:
-                return 'Backend'
-            case Departments.SUPPORT:
-                return 'Техподдержка'
-            case Departments.ANALYTICS:
-                return 'Аналитика'
-            default:
-                return 'Нет такого'
-        }
-    }
+    const departments = useMemo(
+        () =>
+            uniq([
+                'all',
+                ...items.map((item: IUser) => item.department),
+            ]).sort(),
+        [items]
+    )
 
     return (
         <TabsContainer>
-            {uniqDepartments.map((department: string) => (
+            {departments.map((department: string) => (
                 <li
                     className={
                         department === selectedDepartment ? 'active' : ''
@@ -55,7 +30,7 @@ const Tabs = ({ items, onSelectedTab, selectedDepartment }: ITabs) => {
                     key={department}
                     onClick={() => onSelectedTab(department)}
                 >
-                    {switchDepartment(department)}
+                    {getCategoryName(department)}
                 </li>
             ))}
         </TabsContainer>

@@ -1,39 +1,34 @@
 import React, { useState, useEffect } from 'react'
+import { useOffline, useGetUsers } from './hooks'
 import Users from './components/Users'
-import Search from './components/Search'
-import Tabs from './components/Tabs'
+import TopAppBar from './components/TopAppBar'
 import './app.scss'
-import axios from 'axios'
 // @ts-ignore
 import styled from 'styled-components'
+import { Routes, Route } from 'react-router-dom'
+import UserPage from './components/UserPage'
+import { SkeletonUser } from './components/Skeletons'
 
 const Container = styled.div`
     max-width: 1280px;
     margin: 0 auto;
 `
 
-const URL =
-    'https://stoplight.io/mocks/kode-frontend-team/koder-stoplight/86566464/users?__dynamic=true'
-
 const App = (): JSX.Element => {
-    const [allUsers, setAllUsers] = useState([])
-    const [filteredUsers, setFilteredUsers] = useState([])
+    const { users: allUsers, isLoading, refresh } = useGetUsers()
     const [selectedDepartment, setSelectedDepartment] = useState('all')
     const [searchQuery, setSearchQuery] = useState('')
+    const { isOffline } = useOffline()
 
-    useEffect(() => {
-        axios
-            .get(URL)
-            .then((response) => {
-                const allUsers = response.data
-                setAllUsers(allUsers.items)
-                setFilteredUsers(allUsers.items)
-            })
-            .catch((error) => console.log(error))
-    }, [])
+    useEffect(() => {}, [])
 
     const onSelectedTab = (department: string) => {
         if (searchQuery !== '') setSearchQuery('')
+        // @ts-ignore
+        const users = JSON.parse(localStorage.getItem('users'))
+        const isNotFresh =
+            users.timestamp + 3 * 1000 * 60 <= new Date().getTime()
+        if (isNotFresh) refresh()
         setSelectedDepartment(department)
     }
 
@@ -43,13 +38,13 @@ const App = (): JSX.Element => {
     }
 
     const users = searchQuery
-        ? filteredUsers.filter(
+        ? allUsers.filter(
               ({ firstName, lastName }: any) =>
                   firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
                   lastName.toLowerCase().includes(searchQuery.toLowerCase())
           )
         : selectedDepartment
-        ? filteredUsers.filter((user: any) => {
+        ? allUsers.filter((user: any) => {
               if (selectedDepartment !== 'all') {
                   return user.department === selectedDepartment
               } else {
@@ -59,22 +54,34 @@ const App = (): JSX.Element => {
         : allUsers
 
     return (
-        <Container>
-            <h1>Поиск</h1>
-            <Search value={searchQuery} handleChange={handleSearchChange} />
-            {allUsers.length > 0 ? (
-                <>
-                    <Tabs
-                        items={allUsers}
-                        onSelectedTab={onSelectedTab}
-                        selectedDepartment={selectedDepartment}
-                    />
-                    <Users items={users} />
-                </>
-            ) : (
-                <span>Loading...</span>
-            )}
-        </Container>
+        <>
+            <Routes>
+                <Route
+                    index
+                    element={
+                        <Container>
+                            <TopAppBar
+                                title="Поиск"
+                                items={allUsers}
+                                connection={isOffline}
+                                searchQuery={searchQuery}
+                                onSelectedTab={onSelectedTab}
+                                selectedDepartment={selectedDepartment}
+                                handleSearchChange={handleSearchChange}
+                            />
+                            {allUsers.length > 0 && !isLoading ? (
+                                <Users items={users} />
+                            ) : (
+                                [0, 1, 2, 3, 4, 5].map((index) => (
+                                    <SkeletonUser key={index} />
+                                ))
+                            )}
+                        </Container>
+                    }
+                />
+                <Route path=":userId" element={<UserPage items={users} />} />
+            </Routes>
+        </>
     )
 }
 

@@ -20,6 +20,8 @@
 
 * {
 	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
 }
 
 body {
@@ -33,5 +35,5 @@ h1 {
 	line-height: 28px;
 	color: #050510;
 	padding: 0 12px;
-	margin-bottom: 18px;
+	margin: 16px 0 18px;
 }

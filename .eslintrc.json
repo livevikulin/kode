@@ -41,6 +41,8 @@
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/require-array-sort-compare": "off",
+        "@typescript-eslint/restrict-plus-operands": "off",
+        "@typescript-eslint/prefer-includes": "off",
         "no-redeclare": "off",
         "import/no-unresolved": [
             2,
